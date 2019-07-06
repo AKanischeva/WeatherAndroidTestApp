@@ -29,7 +29,7 @@ public class WeatherResult {
     private Wind wind;
 
     public String getDt() {
-        return dt;
+        return dt == null ? "Unknown" : dt;
     }
 
     public void setDt(String dt) {
@@ -45,7 +45,7 @@ public class WeatherResult {
     }
 
     public String getTimezone() {
-        return timezone;
+        return timezone == null ? "Unknown" : timezone;
     }
 
     public void setTimezone(String timezone) {
@@ -61,7 +61,7 @@ public class WeatherResult {
     }
 
     public String getName() {
-        return name;
+        return name == null ? "Unknown" : name;
     }
 
     public void setName(String name) {
@@ -69,7 +69,7 @@ public class WeatherResult {
     }
 
     public String getCod() {
-        return cod;
+        return cod == null ? "Unknown" : cod;
     }
 
     public void setCod(String cod) {
@@ -93,7 +93,7 @@ public class WeatherResult {
     }
 
     public String getId() {
-        return id;
+        return id == null ? "Unknown" : id;
     }
 
     public void setId(String id) {
@@ -109,7 +109,7 @@ public class WeatherResult {
     }
 
     public String getBase() {
-        return base;
+        return base == null ? "Unknown" : base;
     }
 
     public void setBase(String base) {
@@ -126,6 +126,6 @@ public class WeatherResult {
 
     @Override
     public String toString() {
-        return "[dt = " + dt + ", coord = " + coord + ", timezone = " + timezone + ", weather = " + weather + ", name = " + name + ", cod = " + cod + ", main = " + main + ", clouds = " + clouds + ", id = " + id + ", sys = " + sys + ", base = " + base + ", wind = " + wind + "]";
+        return "[dt = " + getDt() + ", coord = " + coord + ", timezone = " + getTimezone() + ", weather = " + weather + ", name = " + getName() + ", cod = " + getCod() + ", main = " + main + ", clouds = " + clouds + ", id = " + getId() + ", sys = " + sys + ", base = " + getBase() + ", wind = " + wind + "]";
     }
 }

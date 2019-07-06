@@ -28,9 +28,9 @@ import retrofit2.Retrofit;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TodayWeatherFragment extends Fragment {
+public class CurrentLocationWeatherFragment extends Fragment {
 
-    static TodayWeatherFragment instance;
+    static CurrentLocationWeatherFragment instance;
     ImageView imgWeather;
     TextView txtCityName, txtHumidity, txtPressure, txtTemperature, txtDescription, txtDateTime, txtWind, txtGeoCoord;
     LinearLayout weatherPanel;
@@ -38,15 +38,15 @@ public class TodayWeatherFragment extends Fragment {
     CompositeDisposable compositeDisposable;
     IOpenWeatherMap mService;
 
-    public TodayWeatherFragment() {
+    public CurrentLocationWeatherFragment() {
         compositeDisposable = new CompositeDisposable();
         Retrofit retrofit = RetrofitClient.getInstance();
         mService = retrofit.create(IOpenWeatherMap.class);
     }
 
-    public static TodayWeatherFragment getInstance() {
+    public static CurrentLocationWeatherFragment getInstance() {
         if (instance == null) {
-            instance = new TodayWeatherFragment();
+            instance = new CurrentLocationWeatherFragment();
         }
         return instance;
     }

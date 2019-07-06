@@ -4,7 +4,7 @@ public class Clouds {
     private String all;
 
     public String getAll() {
-        return all;
+        return all == null ? "Unknown" : all;
     }
 
     public void setAll(String all) {
@@ -13,6 +13,6 @@ public class Clouds {
 
     @Override
     public String toString() {
-        return "[all = " + all + "]";
+        return "[all = " + getAll() + "]";
     }
 }

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:gravity="center_horizontal"
-    tools:context=".TodayWeatherFragment">
+    tools:context=".CurrentLocationWeatherFragment">
 
     <LinearLayout
         android:id="@+id/weather_panel"
@@ -18,7 +18,6 @@
             android:id="@+id/txt_city_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Weather in London, GB"
             android:textColor="@color/colorPrimary"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -39,7 +38,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:text="14 C"
                 android:textColor="@color/colorPrimary"
                 android:textSize="50sp"
                 android:textStyle="bold" />
@@ -49,7 +47,6 @@
             android:id="@+id/txt_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Weather in London, GB"
             android:textColor="@color/colorPrimary"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -58,7 +55,6 @@
             android:id="@+id/txt_date_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Weather in London, GB"
             android:textColor="@color/colorPrimary"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -79,15 +75,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/cell"
-                    android:text="Wind" />
+                    android:text="@string/txt_wind" />
 
                 <TextView
                     android:id="@+id/txt_wind"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="1"
-                    android:layout_marginLeft="8dp"
-                    android:text="Speed: 1 Deg: 1" />
+                    android:layout_marginLeft="8dp" />
             </TableRow>
 
             <TableRow
@@ -98,15 +93,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/cell"
-                    android:text="Pressure" />
+                    android:text="@string/txt_pressure" />
 
                 <TextView
                     android:id="@+id/txt_pressure"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="1"
-                    android:layout_marginLeft="8dp"
-                    android:text="1013.75 hpa" />
+                    android:layout_marginLeft="8dp" />
             </TableRow>
 
             <TableRow
@@ -117,15 +111,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/cell"
-                    android:text="Humidity" />
+                    android:text="@string/txt_humidity" />
 
                 <TextView
                     android:id="@+id/txt_humidity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="1"
-                    android:layout_marginLeft="8dp"
-                    android:text="100%" />
+                    android:layout_marginLeft="8dp" />
             </TableRow>
 
             <TableRow
@@ -136,15 +129,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/cell"
-                    android:text="Geo Coord" />
+                    android:text="@string/txt_geo_coord" />
 
                 <TextView
                     android:id="@+id/txt_geo_coord"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="1"
-                    android:layout_marginLeft="8dp"
-                    android:text="37.4219/-122.084" />
+                    android:layout_marginLeft="8dp" />
             </TableRow>
         </TableLayout>
     </LinearLayout>

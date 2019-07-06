@@ -6,7 +6,7 @@ public class Wind {
     private String speed;
 
     public String getDeg() {
-        return deg;
+        return deg == null ? "Unknown" : deg;
     }
 
     public void setDeg(String deg) {
@@ -14,7 +14,7 @@ public class Wind {
     }
 
     public String getSpeed() {
-        return speed;
+        return speed == null ? "Unknown" : speed;
     }
 
     public void setSpeed(String speed) {
@@ -23,6 +23,6 @@ public class Wind {
 
     @Override
     public String toString() {
-        return "[deg = " + deg + ", speed = " + speed + "]";
+        return "[deg = " + getDeg() + ", speed = " + getSpeed() + "]";
     }
 }

@@ -100,7 +100,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(TodayWeatherFragment.getInstance(), "Today");
+        adapter.addFragment(CurrentLocationWeatherFragment.getInstance(), "Today");
+        adapter.addFragment(MoscowWeatherFragment.getInstance(), "Moscow");
+        adapter.addFragment(SPetersburgWeatherFragment.getInstance(), "SPetersburg");
         viewPager.setAdapter(adapter);
     }
 

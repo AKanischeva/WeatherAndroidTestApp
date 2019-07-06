@@ -9,6 +9,8 @@ public class Common {
 
     public static final String appId = "d61dba5f839d0f84062a029759581b1b";
     public static Location currentLocation = null;
+    public static String moscow = "Moscow, ru";
+    public static String sPetersburg = "Saint Petersburg, ru";
 
     public static String convertUnixToDate(String dt) {
         long unixSeconds = Long.valueOf(dt);

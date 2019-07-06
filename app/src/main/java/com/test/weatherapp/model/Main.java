@@ -12,7 +12,7 @@ public class Main {
     private String temp_max;
 
     public String getTemp() {
-        return temp;
+        return temp == null ? "Unknown" : temp;
     }
 
     public void setTemp(String temp) {
@@ -20,7 +20,7 @@ public class Main {
     }
 
     public String getTemp_min() {
-        return temp_min;
+        return temp_min == null ? "Unknown" : temp_min;
     }
 
     public void setTemp_min(String temp_min) {
@@ -28,7 +28,7 @@ public class Main {
     }
 
     public String getHumidity() {
-        return humidity;
+        return humidity == null ? "Unknown" : humidity;
     }
 
     public void setHumidity(String humidity) {
@@ -36,7 +36,7 @@ public class Main {
     }
 
     public String getPressure() {
-        return pressure;
+        return pressure == null ? "Unknown" : pressure;
     }
 
     public void setPressure(String pressure) {
@@ -44,7 +44,7 @@ public class Main {
     }
 
     public String getTemp_max() {
-        return temp_max;
+        return temp_max == null ? "Unknown" : temp_max;
     }
 
     public void setTemp_max(String temp_max) {
@@ -53,6 +53,6 @@ public class Main {
 
     @Override
     public String toString() {
-        return "[temp = " + temp + ", temp_min = " + temp_min + ", humidity = " + humidity + ", pressure = " + pressure + ", temp_max = " + temp_max + "]";
+        return "[temp = " + getTemp() + ", temp_min = " + getTemp_min() + ", humidity = " + getHumidity() + ", pressure = " + getPressure() + ", temp_max = " + getTemp_max() + "]";
     }
 }

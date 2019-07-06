@@ -14,7 +14,7 @@ public class Sys {
     private String message;
 
     public String getCountry() {
-        return country;
+        return country == null ? "Unknown" : country;
     }
 
     public void setCountry(String country) {
@@ -22,7 +22,7 @@ public class Sys {
     }
 
     public String getSunrise() {
-        return sunrise;
+        return sunrise == null ? "Unknown" : sunrise;
     }
 
     public void setSunrise(String sunrise) {
@@ -30,7 +30,7 @@ public class Sys {
     }
 
     public String getSunset() {
-        return sunset;
+        return sunset == null ? "Unknown" : sunset;
     }
 
     public void setSunset(String sunset) {
@@ -38,7 +38,7 @@ public class Sys {
     }
 
     public String getId() {
-        return id;
+        return id == null ? "Unknown" : id;
     }
 
     public void setId(String id) {
@@ -46,7 +46,7 @@ public class Sys {
     }
 
     public String getType() {
-        return type;
+        return type == null ? "Unknown" : type;
     }
 
     public void setType(String type) {
@@ -54,7 +54,7 @@ public class Sys {
     }
 
     public String getMessage() {
-        return message;
+        return message == null ? "Unknown" : message;
     }
 
     public void setMessage(String message) {
@@ -63,6 +63,6 @@ public class Sys {
 
     @Override
     public String toString() {
-        return "[country = " + country + ", sunrise = " + sunrise + ", sunset = " + sunset + ", id = " + id + ", type = " + type + ", message = " + message + "]";
+        return "[country = " + getCountry() + ", sunrise = " + getSunrise() + ", sunset = " + getSunset() + ", id = " + getId() + ", type = " + getType() + ", message = " + getMessage() + "]";
     }
 }

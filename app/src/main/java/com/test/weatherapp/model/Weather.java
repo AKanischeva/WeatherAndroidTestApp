@@ -10,7 +10,7 @@ public class Weather {
     private String id;
 
     public String getIcon() {
-        return icon;
+        return icon == null ? "Unknown" : icon;
     }
 
     public void setIcon(String icon) {
@@ -18,7 +18,7 @@ public class Weather {
     }
 
     public String getDescription() {
-        return description;
+        return description == null ? "Unknown" : description;
     }
 
     public void setDescription(String description) {
@@ -26,7 +26,7 @@ public class Weather {
     }
 
     public String getMain() {
-        return main;
+        return main == null ? "Unknown" : main;
     }
 
     public void setMain(String main) {
@@ -34,7 +34,7 @@ public class Weather {
     }
 
     public String getId() {
-        return id;
+        return id == null ? "Unknown" : id;
     }
 
     public void setId(String id) {
@@ -43,6 +43,6 @@ public class Weather {
 
     @Override
     public String toString() {
-        return "[icon = " + icon + ", description = " + description + ", main = " + main + ", id = " + id + "]";
+        return "[icon = " + getIcon() + ", description = " + getDescription() + ", main = " + getMain() + ", id = " + getId() + "]";
     }
 }

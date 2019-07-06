@@ -6,7 +6,7 @@ public class Coord {
     private String lat;
 
     public String getLon() {
-        return lon;
+        return lon == null ? "Unknown" : lon;
     }
 
     public void setLon(String lon) {
@@ -14,7 +14,7 @@ public class Coord {
     }
 
     public String getLat() {
-        return lat;
+        return lat == null ? "Unknown" : lat;
     }
 
     public void setLat(String lat) {
@@ -23,6 +23,6 @@ public class Coord {
 
     @Override
     public String toString() {
-        return "[lon = " + lon + ", lat = " + lat + "]";
+        return "[lon = " + getLon() + ", lat = " + getLat() + "]";
     }
 }
