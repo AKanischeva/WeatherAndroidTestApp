@@ -23,6 +23,6 @@ public class Wind {
 
     @Override
     public String toString() {
-        return "[deg = " + getDeg() + ", speed = " + getSpeed() + "]";
+        return "deg = " + getDeg() + ", speed = " + getSpeed();
     }
 }

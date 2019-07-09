@@ -2,6 +2,7 @@ package com.test.weatherapp.common;
 
 import android.location.Location;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -18,5 +19,12 @@ public class Common {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         sdf.setTimeZone(java.util.TimeZone.getTimeZone("GMT-3"));
         return sdf.format(date);
+    }
+
+    public static String getCurrentTimeUsingDate() {
+        Date date = new Date();
+        String strDateFormat = "hh:mm:ss a";
+        DateFormat dateFormat = new SimpleDateFormat(strDateFormat);
+        return dateFormat.format(date);
     }
 }

@@ -32,7 +32,7 @@ public class SPetersburgWeatherFragment extends Fragment {
 
     static SPetersburgWeatherFragment instance;
     ImageView imgWeather;
-    TextView txtCityName, txtHumidity, txtPressure, txtTemperature, txtDescription, txtDateTime, txtWind, txtGeoCoord;
+    TextView txtCityName, txtHumidity, txtPressure, txtTemperature, txtDescription, txtDateTime, txtWind;
     LinearLayout weatherPanel;
     ProgressBar loading;
     CompositeDisposable compositeDisposable;
@@ -51,6 +51,10 @@ public class SPetersburgWeatherFragment extends Fragment {
         return instance;
     }
 
+    public static SPetersburgWeatherFragment getNewInstance(){
+        return new SPetersburgWeatherFragment();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -64,7 +68,6 @@ public class SPetersburgWeatherFragment extends Fragment {
         txtDescription = (TextView) itemView.findViewById(R.id.txt_description);
         txtDateTime = (TextView) itemView.findViewById(R.id.txt_date_time);
         txtWind = (TextView) itemView.findViewById(R.id.txt_wind);
-        txtGeoCoord = (TextView) itemView.findViewById(R.id.txt_geo_coord);
 
         weatherPanel = (LinearLayout) itemView.findViewById(R.id.weather_panel);
         loading = (ProgressBar) itemView.findViewById(R.id.loading);
@@ -94,7 +97,6 @@ public class SPetersburgWeatherFragment extends Fragment {
                         txtDescription.setText(new StringBuilder("Weather in ").append(weatherResult.getName()));
                         txtDateTime.setText(Common.convertUnixToDate(weatherResult.getDt()));
                         txtWind.setText(weatherResult.getWind().toString());
-                        txtGeoCoord.setText(weatherResult.getCoord().toString());
 
                         weatherPanel.setVisibility(View.VISIBLE);
                         loading.setVisibility(View.GONE);

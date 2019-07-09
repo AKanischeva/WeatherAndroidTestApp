@@ -5,5 +5,5 @@
     <string name="txt_wind">Wind</string>
     <string name="txt_pressure">Pressure</string>
     <string name="txt_humidity">Humidity</string>
-    <string name="txt_geo_coord">Geo Coord</string>
+    <string name="action_refresh">Refresh</string>
 </resources>

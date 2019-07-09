@@ -5,6 +5,9 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -41,6 +44,14 @@ public class MainActivity extends AppCompatActivity {
     private LocationRequest locationRequest;
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.activity_main_actions, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -48,9 +59,12 @@ public class MainActivity extends AppCompatActivity {
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.root_view);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        requestCoordinates(false);
+    }
+
+    private void requestCoordinates(final Boolean isRefreshed) {
         Dexter.withActivity(this)
                 .withPermissions(Manifest.permission.ACCESS_COARSE_LOCATION,
                         Manifest.permission.ACCESS_FINE_LOCATION)
@@ -59,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         if (report.areAllPermissionsGranted()) {
                             buildLocationRequest();
-                            buildLocationCallback();
+                            buildLocationCallback(isRefreshed);
                             if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                                 // TODO: Consider calling
                                 //    ActivityCompat#requestPermissions
@@ -82,14 +96,14 @@ public class MainActivity extends AppCompatActivity {
                 }).check();
     }
 
-    private void buildLocationCallback() {
+    private void buildLocationCallback(final Boolean isRefreshed) {
         locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 super.onLocationResult(locationResult);
                 Common.currentLocation = locationResult.getLastLocation();
                 viewPager = (ViewPager) findViewById(R.id.view_pager);
-                setupViewPager(viewPager);
+                setupViewPager(viewPager, isRefreshed);
                 tabLayout = (TabLayout) findViewById(R.id.tabs);
                 tabLayout.setupWithViewPager(viewPager);
 
@@ -98,11 +112,17 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
-    private void setupViewPager(ViewPager viewPager) {
+    private void setupViewPager(ViewPager viewPager, Boolean isRefreshed) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(CurrentLocationWeatherFragment.getInstance(), "Today");
-        adapter.addFragment(MoscowWeatherFragment.getInstance(), "Moscow");
-        adapter.addFragment(SPetersburgWeatherFragment.getInstance(), "SPetersburg");
+        if(isRefreshed){
+            adapter.addFragment(CurrentLocationWeatherFragment.getNewInstance(), "Today");
+            adapter.addFragment(MoscowWeatherFragment.getNewInstance(), "Moscow");
+            adapter.addFragment(SPetersburgWeatherFragment.getNewInstance(), "SPetersburg");
+        } else {
+            adapter.addFragment(CurrentLocationWeatherFragment.getInstance(), "Today");
+            adapter.addFragment(MoscowWeatherFragment.getInstance(), "Moscow");
+            adapter.addFragment(SPetersburgWeatherFragment.getInstance(), "SPetersburg");
+        }
         viewPager.setAdapter(adapter);
     }
 
@@ -112,5 +132,21 @@ public class MainActivity extends AppCompatActivity {
         locationRequest.setInterval(5000);
         locationRequest.setFastestInterval(3000);
         locationRequest.setSmallestDisplacement(10.0f);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Take appropriate action for each action item click
+        switch (item.getItemId()) {
+            case R.id.action_refresh:
+                doRefresh();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void doRefresh() {
+        requestCoordinates(true);
     }
 }
