@@ -115,13 +115,13 @@ public class MainActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager, Boolean isRefreshed) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         if (isRefreshed) {
-            adapter.addFragment(CurrentLocationWeatherFragment.getNewInstance(), "Today");
-            adapter.addFragment(MoscowWeatherFragment.getNewInstance(), "Moscow");
-            adapter.addFragment(SPetersburgWeatherFragment.getNewInstance(), "SPetersburg");
+            adapter.addFragment(CurrentLocationWeatherFragment.getNewInstance(), Common.CUR_LOC_TITLE);
+            adapter.addFragment(MoscowWeatherFragment.getNewInstance(), Common.MOSCOW_TITLE);
+            adapter.addFragment(SPetersburgWeatherFragment.getNewInstance(), Common.SPETERSBURG_TITLE);
         } else {
-            adapter.addFragment(CurrentLocationWeatherFragment.getInstance(), "Today");
-            adapter.addFragment(MoscowWeatherFragment.getInstance(), "Moscow");
-            adapter.addFragment(SPetersburgWeatherFragment.getInstance(), "SPetersburg");
+            adapter.addFragment(CurrentLocationWeatherFragment.getInstance(), Common.CUR_LOC_TITLE);
+            adapter.addFragment(MoscowWeatherFragment.getInstance(), Common.MOSCOW_TITLE);
+            adapter.addFragment(SPetersburgWeatherFragment.getInstance(), Common.SPETERSBURG_TITLE);
         }
         viewPager.setAdapter(adapter);
     }

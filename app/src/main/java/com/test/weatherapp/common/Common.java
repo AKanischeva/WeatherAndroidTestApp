@@ -13,8 +13,11 @@ public class Common {
     private static final String dateFormat = "yyyy-MM-dd HH:mm:ss";
     private static final String timeZone = "Europe/Moscow";
     public static Location currentLocation = null;
-    public static String MOSCOW = "Moscow, ru";
-    public static String SPETERSBURG = "Saint Petersburg, ru";
+    public static final String MOSCOW = "Moscow, ru";
+    public static final String SPETERSBURG = "Saint Petersburg, ru";
+    public static final String CUR_LOC_TITLE = "CURRENT LOCATION";
+    public static final String MOSCOW_TITLE = "MOSCOW";
+    public static final String SPETERSBURG_TITLE = "SAINT PETERSBURG";
 
     public static String convertUnixToDate(String dt, String tzone) {
         long unixSeconds = Long.valueOf(dt);
