@@ -1,7 +1,11 @@
 package com.test.weatherapp;
 
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +22,7 @@ import com.test.weatherapp.retrofit.IOpenWeatherMap;
 import com.test.weatherapp.retrofit.RetrofitClient;
 
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
@@ -30,13 +35,14 @@ import retrofit2.Retrofit;
  */
 public class SPetersburgWeatherFragment extends Fragment {
 
-    static SPetersburgWeatherFragment instance;
-    ImageView imgWeather;
-    TextView txtCityName, txtHumidity, txtPressure, txtTemperature, txtDescription, txtDateTime, txtWind;
-    LinearLayout weatherPanel;
-    ProgressBar loading;
-    CompositeDisposable compositeDisposable;
-    IOpenWeatherMap mService;
+    private static SPetersburgWeatherFragment instance;
+    private ImageView imgWeather;
+    private TextView txtCityName, txtHumidity, txtPressure, txtTemperature, txtDescription, txtDateTime, txtWind;
+    private LinearLayout weatherPanel;
+    private ProgressBar loading;
+    private CompositeDisposable compositeDisposable;
+    private IOpenWeatherMap mService;
+    private SwipeRefreshLayout swipeLayout;
 
     public SPetersburgWeatherFragment() {
         compositeDisposable = new CompositeDisposable();
@@ -73,18 +79,44 @@ public class SPetersburgWeatherFragment extends Fragment {
         loading = (ProgressBar) itemView.findViewById(R.id.loading);
 
         getWeatherInformation();
+
+        swipeLayout = itemView.findViewById(R.id.swipe_container);
+        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Toast.makeText(getActivity(), "Updating information!", Toast.LENGTH_SHORT).show();
+                new Handler().post(new Runnable() {
+                    @Override public void run() {
+                        if(isNetworkAvailable()){
+                            getWeatherInformation();
+                        } else {
+                            Toast.makeText(getActivity(), "No internet available!", Toast.LENGTH_SHORT).show();
+                        }
+                        Toast.makeText(getActivity(), "Successfully updated!", Toast.LENGTH_SHORT).show();
+                        swipeLayout.setRefreshing(false);
+                    }
+                });
+            }
+        });
+
+        swipeLayout.setColorSchemeColors(
+                getResources().getColor(android.R.color.holo_blue_bright),
+                getResources().getColor(android.R.color.holo_green_light),
+                getResources().getColor(android.R.color.holo_orange_light),
+                getResources().getColor(android.R.color.holo_red_light)
+        );
         return itemView;
     }
 
     private void getWeatherInformation() {
-        compositeDisposable.add(mService.getWeatherByNameAndCountryCode(Common.sPetersburg,
-                String.valueOf(Common.appId),
+        compositeDisposable.add(mService.getWeatherByNameAndCountryCode(Common.SPETERSBURG,
+                String.valueOf(Common.APP_ID),
                 "metric")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<WeatherResult>() {
                     @Override
-                    public void accept(WeatherResult weatherResult) throws Exception {
+                    public void accept(WeatherResult weatherResult) {
                         //Load image
                         Picasso.get().load(new StringBuilder("https://openweathermap.org/img/wn/")
                                 .append(weatherResult.getWeather().get(0).getIcon())
@@ -95,7 +127,7 @@ public class SPetersburgWeatherFragment extends Fragment {
                         txtPressure.setText(new StringBuilder(weatherResult.getMain().getPressure()).append(" hpa"));
                         txtTemperature.setText(new StringBuilder(weatherResult.getMain().getTemp()).append("°C"));
                         txtDescription.setText(new StringBuilder("Weather in ").append(weatherResult.getName()));
-                        txtDateTime.setText(Common.convertUnixToDate(weatherResult.getDt()));
+                        txtDateTime.setText(Common.convertUnixToDate(weatherResult.getDt(), weatherResult.getTimezone()));
                         txtWind.setText(weatherResult.getWind().toString());
 
                         weatherPanel.setVisibility(View.VISIBLE);
@@ -109,4 +141,13 @@ public class SPetersburgWeatherFragment extends Fragment {
                 }));
     }
 
+    private boolean isNetworkAvailable() {
+        if (getContext() != null) {
+            ConnectivityManager connectivityManager
+                    = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        }
+        return false;
+    }
 }
