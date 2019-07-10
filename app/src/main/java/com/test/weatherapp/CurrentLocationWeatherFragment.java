@@ -1,7 +1,11 @@
 package com.test.weatherapp;
 
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +21,11 @@ import com.test.weatherapp.model.WeatherResult;
 import com.test.weatherapp.retrofit.IOpenWeatherMap;
 import com.test.weatherapp.retrofit.RetrofitClient;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
@@ -32,11 +40,12 @@ public class CurrentLocationWeatherFragment extends Fragment {
 
     static CurrentLocationWeatherFragment instance;
     ImageView imgWeather;
-    TextView txtCityName, txtHumidity, txtPressure, txtTemperature, txtDescription, txtDateTime, txtWind, txtGeoCoord;
+    TextView txtCityName, txtHumidity, txtPressure, txtTemperature, txtDescription, txtDateTime, txtWind;
     LinearLayout weatherPanel;
     ProgressBar loading;
     CompositeDisposable compositeDisposable;
     IOpenWeatherMap mService;
+    SwipeRefreshLayout swipeLayout;
 
     public CurrentLocationWeatherFragment() {
         compositeDisposable = new CompositeDisposable();
@@ -73,6 +82,34 @@ public class CurrentLocationWeatherFragment extends Fragment {
         loading = (ProgressBar) itemView.findViewById(R.id.loading);
 
         getWeatherInformation();
+
+        // Getting SwipeContainerLayout
+        swipeLayout = itemView.findViewById(R.id.swipe_container);
+        // Adding Listener
+        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Toast.makeText(getActivity(), "Updating information!", Toast.LENGTH_LONG).show();
+                new Handler().post(new Runnable() {
+                    @Override public void run() {
+                        if(isNetworkAvailable()){
+                            getWeatherInformation();
+                        } else {
+                            Toast.makeText(getActivity(), "No internet available!", Toast.LENGTH_LONG).show();
+                        }
+                        swipeLayout.setRefreshing(false);
+                    }
+                });
+            }
+        });
+
+        // Scheme colors for animation
+        swipeLayout.setColorSchemeColors(
+                getResources().getColor(android.R.color.holo_blue_bright),
+                getResources().getColor(android.R.color.holo_green_light),
+                getResources().getColor(android.R.color.holo_orange_light),
+                getResources().getColor(android.R.color.holo_red_light)
+        );
         return itemView;
     }
 
@@ -85,7 +122,7 @@ public class CurrentLocationWeatherFragment extends Fragment {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<WeatherResult>() {
                     @Override
-                    public void accept(WeatherResult weatherResult) throws Exception {
+                    public void accept(WeatherResult weatherResult) {
                         //Load image
                         Picasso.get().load(new StringBuilder("https://openweathermap.org/img/wn/")
                                 .append(weatherResult.getWeather().get(0).getIcon())
@@ -97,6 +134,7 @@ public class CurrentLocationWeatherFragment extends Fragment {
                         txtTemperature.setText(new StringBuilder(weatherResult.getMain().getTemp()).append("°C"));
                         txtDescription.setText(new StringBuilder("Weather in ").append(weatherResult.getName()));
                         txtDateTime.setText(Common.convertUnixToDate(weatherResult.getDt()));
+//                        txtDateTime.setText(Common.getCurrentTimeUsingDate());
                         txtWind.setText(weatherResult.getWind().toString());
 
                         weatherPanel.setVisibility(View.VISIBLE);
@@ -110,4 +148,14 @@ public class CurrentLocationWeatherFragment extends Fragment {
                 }));
     }
 
+    private boolean isNetworkAvailable() {
+        if (getContext() != null) {
+            ConnectivityManager connectivityManager
+                    = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        }
+        return false;
+    }
 }
+
