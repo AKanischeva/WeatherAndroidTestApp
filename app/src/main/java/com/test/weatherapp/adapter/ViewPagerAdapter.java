@@ -1,4 +1,4 @@
-package com.test.weatherapp.Adapter;
+package com.test.weatherapp.adapter;
 
 import java.util.ArrayList;
 import java.util.List;

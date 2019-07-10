@@ -37,7 +37,7 @@ public class SPetersburgWeatherFragment extends Fragment {
 
     private static SPetersburgWeatherFragment instance;
     private ImageView imgWeather;
-    private TextView txtCityName, txtHumidity, txtPressure, txtTemperature, txtDescription, txtDateTime, txtWind;
+    private TextView txtCityName, txtHumidity, txtPressure, txtTemperature, txtDescription, txtDateTime, txtWind, txtCurrentDateTime;
     private LinearLayout weatherPanel;
     private ProgressBar loading;
     private CompositeDisposable compositeDisposable;
@@ -57,7 +57,7 @@ public class SPetersburgWeatherFragment extends Fragment {
         return instance;
     }
 
-    public static SPetersburgWeatherFragment getNewInstance(){
+    public static SPetersburgWeatherFragment getNewInstance() {
         return new SPetersburgWeatherFragment();
     }
 
@@ -73,6 +73,7 @@ public class SPetersburgWeatherFragment extends Fragment {
         txtTemperature = (TextView) itemView.findViewById(R.id.txt_temperature);
         txtDescription = (TextView) itemView.findViewById(R.id.txt_description);
         txtDateTime = (TextView) itemView.findViewById(R.id.txt_date_time);
+        txtCurrentDateTime = (TextView) itemView.findViewById(R.id.txt_current_date_time);
         txtWind = (TextView) itemView.findViewById(R.id.txt_wind);
 
         weatherPanel = (LinearLayout) itemView.findViewById(R.id.weather_panel);
@@ -86,8 +87,9 @@ public class SPetersburgWeatherFragment extends Fragment {
             public void onRefresh() {
                 Toast.makeText(getActivity(), "Updating information!", Toast.LENGTH_SHORT).show();
                 new Handler().post(new Runnable() {
-                    @Override public void run() {
-                        if(isNetworkAvailable()){
+                    @Override
+                    public void run() {
+                        if (isNetworkAvailable()) {
                             getWeatherInformation();
                         } else {
                             Toast.makeText(getActivity(), "No internet available!", Toast.LENGTH_SHORT).show();
@@ -110,7 +112,7 @@ public class SPetersburgWeatherFragment extends Fragment {
 
     private void getWeatherInformation() {
         compositeDisposable.add(mService.getWeatherByNameAndCountryCode(Common.SPETERSBURG,
-                String.valueOf(Common.APP_ID),
+                Common.APP_ID,
                 "metric")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -127,7 +129,8 @@ public class SPetersburgWeatherFragment extends Fragment {
                         txtPressure.setText(new StringBuilder(weatherResult.getMain().getPressure()).append(" hpa"));
                         txtTemperature.setText(new StringBuilder(weatherResult.getMain().getTemp()).append("°C"));
                         txtDescription.setText(new StringBuilder("Weather in ").append(weatherResult.getName()));
-                        txtDateTime.setText(Common.convertUnixToDate(weatherResult.getDt(), weatherResult.getTimezone()));
+                        txtDateTime.setText(new StringBuilder("Information on: ").append(Common.convertUnixToDate(weatherResult.getDt(), weatherResult.getTimezone())));
+                        txtCurrentDateTime.setText(new StringBuilder("Local time: ").append(Common.getCurrentTimeUsingDate()));
                         txtWind.setText(weatherResult.getWind().toString());
 
                         weatherPanel.setVisibility(View.VISIBLE);
