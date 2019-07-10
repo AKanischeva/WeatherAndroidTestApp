@@ -2,13 +2,16 @@ package com.test.weatherapp.common;
 
 import android.location.Location;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class Common {
 
-    public static final String APP_ID = "d61dba5f839d0f84062a029759581b1b";
+    //    public static final String APP_ID = "d61dba5f839d0f84062a029759581b1b";
+    public static final String APP_ID = "89f106a64a4e88d84a7e6670aec2dee4";
+    private static final String dateFormat = "yyyy-MM-dd HH:mm:ss";
+    private static final String timeZone = "Europe/Moscow";
     public static Location currentLocation = null;
     public static String MOSCOW = "Moscow, ru";
     public static String SPETERSBURG = "Saint Petersburg, ru";
@@ -16,8 +19,15 @@ public class Common {
     public static String convertUnixToDate(String dt, String tzone) {
         long unixSeconds = Long.valueOf(dt);
         long timeZone = Long.valueOf(tzone);
-        Date date = new java.util.Date((unixSeconds + timeZone) * 1000L);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
+        Date date = new Date((unixSeconds + timeZone) * 1000L);
+        return sdf.format(date);
+    }
+
+    public static String getCurrentTimeUsingDate() {
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
+        sdf.setTimeZone(TimeZone.getTimeZone(timeZone));
         return sdf.format(date);
     }
 }

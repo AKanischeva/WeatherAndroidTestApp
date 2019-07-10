@@ -11,11 +11,11 @@ public interface IOpenWeatherMap {
     @GET("weather")
     Observable<WeatherResult> getWeatherByCoordinates(@Query("lat") String lat,
                                                       @Query("lon") String lon,
-                                                      @Query("APP_ID") String appId,
+                                                      @Query("appId") String appId,
                                                       @Query("units") String units);
 
     @GET("weather")
     Observable<WeatherResult> getWeatherByNameAndCountryCode(@Query("q") String q,
-                                                             @Query("APP_ID") String appId,
+                                                             @Query("appId") String appId,
                                                              @Query("units") String units);
 }

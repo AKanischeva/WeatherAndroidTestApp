@@ -21,7 +21,7 @@ import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-import com.test.weatherapp.Adapter.ViewPagerAdapter;
+import com.test.weatherapp.adapter.ViewPagerAdapter;
 import com.test.weatherapp.common.Common;
 
 import java.util.List;
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager, Boolean isRefreshed) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        if(isRefreshed){
+        if (isRefreshed) {
             adapter.addFragment(CurrentLocationWeatherFragment.getNewInstance(), "Today");
             adapter.addFragment(MoscowWeatherFragment.getNewInstance(), "Moscow");
             adapter.addFragment(SPetersburgWeatherFragment.getNewInstance(), "SPetersburg");
